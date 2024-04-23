@@ -1,21 +1,21 @@
 char* convertToTitle(int columnNumber) {
+    
+    int column_length = 1;
+    for (int column_number = columnNumber - pow(26, column_length); column_number > 0; column_number -= pow(26, ++column_length))
+        ;
 
-    int n_letters = 0;
-    int max_column = 0;
-    for (int current_column = columnNumber; current_column > 0; current_column -= max_column) {
-        max_column += (int) pow(26, n_letters + 1);
-        n_letters++;
-    } 
-
-    printf("letters: %d, max column: %d\n", n_letters, max_column);
-
-    char string[n_letters + 1];
-    while(n_letters) {
-        while(max_column > columnNumber) {
-            columnNumber -= (int) pow(26, n_letters - 1);
+    char *column = malloc((column_length + 1) * sizeof(char));
+    for (int i = 0; i < column_length - 1; i++) {
+        printf("%d\n", pow(26, column_length - i - 1));
+        if (columnNumber / pow(26, column_length - i - 1) > 'Z') {
+            column[i] = 'Z';
+            columnNumber -= pow(26, column_length - i - 1);
+        } else {
+            column[i] = 'A' - 1 + columnNumber / pow(26, column_length - i - 1);
+            columnNumber %= (int) pow(26, column_length - i - 1);
         }
-        
     }
-
-    return NULL;
+    column[column_length - 1] = 'A' - 1 + columnNumber % 27;
+    column[column_length] = '\0';
+    return column;
 }
