@@ -1,21 +1,39 @@
+//  helper function declarations
+char *string_reverse(char *s);
+char *string_resize(char *s, int size);
+
 char* convertToTitle(int columnNumber) {
     
-    int column_length = 1;
-    for (int column_number = columnNumber - pow(26, column_length); column_number > 0; column_number -= pow(26, ++column_length))
-        ;
+    int i = 0;
+    char *column = string_resize(NULL, 1);
+    while (columnNumber > 0) {
+        column = string_resize(column, i + 2);
 
-    char *column = malloc((column_length + 1) * sizeof(char));
-    for (int i = 0; i < column_length - 1; i++) {
-        printf("%d\n", pow(26, column_length - i - 1));
-        if (columnNumber / pow(26, column_length - i - 1) > 'Z') {
-            column[i] = 'Z';
-            columnNumber -= pow(26, column_length - i - 1);
-        } else {
-            column[i] = 'A' - 1 + columnNumber / pow(26, column_length - i - 1);
-            columnNumber %= (int) pow(26, column_length - i - 1);
-        }
+        // base 26 system with 1 based indexing
+        columnNumber -= 1;
+        column[i++] = 'A' + columnNumber % 26;
+        columnNumber /= 26;
     }
-    column[column_length - 1] = 'A' - 1 + columnNumber % 27;
-    column[column_length] = '\0';
-    return column;
+    column[i++] = '\0';
+    return string_reverse(column);
+}
+
+// helper function implementations
+char *string_reverse(char *s) {
+    for (int i = 0, j = strlen(s) - 1; i < j; i++, j--) {
+        char tmp = s[i];
+        s[i] = s[j];
+        s[j] = tmp;
+    }
+    return s;
+}
+
+char *string_resize(char *s, int size) {
+    char *resized = realloc(s, size * sizeof(char));
+    if (resized == NULL) {
+        fprintf(stderr, "Memory allocation error!\n");
+        free(s);
+        exit(EXIT_FAILURE);
+    }
+    return resized;
 }
