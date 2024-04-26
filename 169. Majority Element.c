@@ -48,11 +48,3 @@ void merge(int *arr, int left_1, int right_1, int left_2, int right_2) {
         arr[merged_start++] = merged[i];
     }
 }
-
-void print_arr(int *arr, int size) {
-    printf("[");
-    for (int i = 0; i < size - 1; i++) {
-        printf("%d, ", arr[i]);
-    }
-    printf("%d]\n", arr[size - 1]);
-}
