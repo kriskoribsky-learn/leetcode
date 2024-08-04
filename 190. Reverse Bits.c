@@ -1,12 +1,12 @@
-#define BIT 0b1lu
-
 uint32_t reverseBits(uint32_t n) {
 
-    uint32_t result = 0;
+    uint32_t ans = 0;
 
-    for (int left = 31, right = 0; left > right; left--, right++) {
-        result |= ((BIT << left) & n) >> (left - right);
-        result |= ((BIT << right) & n) << (left - right);
+    for (int _ = 0; _ < 32; _++) {
+        ans <<= 1;
+        ans |= n & 1;
+        n >>= 1;
     }
-    return result;
+    
+    return ans;
 }
