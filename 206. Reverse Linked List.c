@@ -5,24 +5,20 @@
  *     struct ListNode *next;
  * };
  */
-struct ListNode *reverseList(struct ListNode* head) {
+struct ListNode* reverseList(struct ListNode* head) {
     if (head == NULL) return NULL;
     if (head->next == NULL) return head;
-
-    struct ListNode *prev = head;
-    struct ListNode *curr = head->next;
-    struct ListNode *next = head->next->next;
-
-    while (next != NULL) {
-        curr->next = prev;
-
-        prev = curr;
-        curr = next;
-        next = next->next;
+    if (head->next->next == NULL) {
+        head->next->next = head;
+        struct ListNode *tmp = head->next;
+        head->next = NULL;
+        return tmp;
     }
-
-    curr->next = prev; // begin linked list
-    head->next = NULL; // end linked list
     
-    return curr;
+    struct ListNode *new_head = reverseList(head->next);
+
+    head->next->next = head;    // reverse next node to point to the current
+    head->next = NULL;          // trim current node, will be overwritten
+
+    return new_head;
 }
