@@ -6,19 +6,12 @@
  * };
  */
 struct ListNode* reverseList(struct ListNode* head) {
-    if (head == NULL) return NULL;
-    if (head->next == NULL) return head;
-    if (head->next->next == NULL) {
-        head->next->next = head;
-        struct ListNode *tmp = head->next;
-        head->next = NULL;
-        return tmp;
-    }
+    if (head == NULL || head->next == NULL) return head;
     
-    struct ListNode *new_head = reverseList(head->next);
+    struct ListNode *list_end = reverseList(head->next);
 
     head->next->next = head;    // reverse next node to point to the current
     head->next = NULL;          // trim current node, will be overwritten
 
-    return new_head;
+    return list_end;
 }
